@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant browser
     participant server
@@ -8,6 +9,7 @@ sequenceDiagram
     Note right of browser: Added note is rendered without re-rendering the whole page.
 
     deactivate server
+```
 
 
     
