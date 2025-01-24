@@ -3,6 +3,8 @@ import { useState } from 'react'
 const Statistics = ({good, neutral, bad}) => {
 
   const all = good + neutral + bad
+  const average = ((good - bad) / all).toFixed(1)
+  const positive = ((good/all)*100).toFixed(1)
 
   if (all == 0) {
     return (
@@ -12,14 +14,16 @@ const Statistics = ({good, neutral, bad}) => {
     )
   } 
   return (
-    <div>
-      <StatisticLine text={'Good'} value={good} />
-      <StatisticLine text={'Neutral'} value={neutral} />
-      <StatisticLine text={'Bad'} value={bad} />
-      <StatisticLine text={'All'} value={good + neutral + bad} />
-      <StatisticLine text={'Average'} value={(good - bad) / (good + neutral + bad)} />
-      <StatisticLine text={'Positive'} value={(good + neutral) / (good + neutral + bad) * 100 + '%'} />
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text={'Good'} value={good} />
+        <StatisticLine text={'Neutral'} value={neutral} />
+        <StatisticLine text={'Bad'} value={bad} />
+        <StatisticLine text={'All'} value={good + neutral + bad} />
+        <StatisticLine text={'Average'} value={average} />
+        <StatisticLine text={'Positive'} value={positive + '%'} />
+      </tbody>
+    </table>
   )
 }
 
@@ -29,9 +33,10 @@ const Button = (props) => (
 
 const StatisticLine = (props) => {
   return (
-    <div>
-      <p>{props.text}: {props.value}</p>
-    </div>
+    <tr>
+      <td>{props.text}</td> 
+      <td> {props.value}</td>
+    </tr>
   )
 }
 
