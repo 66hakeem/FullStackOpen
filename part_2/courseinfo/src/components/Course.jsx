@@ -1,6 +1,5 @@
 
 const Course = (props) => {
-    console.log('hello')
     return (
         <div>
             <Header name={props.course.name}/>
@@ -11,7 +10,6 @@ const Course = (props) => {
 }
 
 const Header = (props) => {
-    console.log('wagwan')
     return (
         <h1>{props.name}</h1>
     )
@@ -27,6 +25,16 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
+    console.log(props)
+    const list = props.total.map(item => item.exercises)
+    const sum = list.reduce((acc, curr) => acc + curr, 0);
+
+    return (
+        <p>Total of {sum} exercises</p>
+    )
+}
+
+/* const Total = (props) => {
     let score = 0
     const lists = props.total.map(item =>
       score = score + item.exercises
@@ -35,15 +43,13 @@ const Total = (props) => {
     return (
       <p>Total of {score} exercises</p>
     )
-}
+} */
 
 const Part = (props) => {
     return (
         <p>{props.name} {props.exercise}</p>
     )
 }
-
-
 
 
 export default Course
