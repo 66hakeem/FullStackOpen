@@ -6,6 +6,7 @@ const Button = (props) => (
   </button>
 )
 
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -19,17 +20,27 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(new Uint8Array(anecdotes.length))
 
   const selectAnecdote = () => {
      setSelected(Math.floor(Math.random() * anecdotes.length))
   }
 
+  const handleVotes = () => {
+    let newArray = [...votes]
+    newArray[selected] = newArray[selected] + 1
+    setVotes(newArray)
+  }
+
   return (
     <div>
-      {anecdotes[selected]}
+      <p>{anecdotes[selected]}</p>
+      <p>has {votes[selected]} votes</p>
       <br/>
 
+      <Button onClick={handleVotes} text={'Vote'} />
       <Button onClick={selectAnecdote} text={'Next anecdote'} />
+      
     </div>
   )
 }
