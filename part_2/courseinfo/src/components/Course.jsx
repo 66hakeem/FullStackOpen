@@ -53,6 +53,3 @@ const Part = (props) => {
 
 
 export default Course
-
-
-
