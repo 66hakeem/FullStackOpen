@@ -11,7 +11,7 @@ const Course = (props) => {
 
 const Header = (props) => {
     return (
-        <h1>{props.name}</h1>
+        <h2>{props.name}</h2>
     )
 }
 
@@ -34,6 +34,20 @@ const Total = (props) => {
     )
 }
 
+const Part = (props) => {
+    return (
+        <p>{props.name} {props.exercise}</p>
+    )
+}
+
+
+export default Course
+
+
+
+
+
+
 /* const Total = (props) => {
     let score = 0
     const lists = props.total.map(item =>
@@ -44,12 +58,3 @@ const Total = (props) => {
       <p>Total of {score} exercises</p>
     )
 } */
-
-const Part = (props) => {
-    return (
-        <p>{props.name} {props.exercise}</p>
-    )
-}
-
-
-export default Course
