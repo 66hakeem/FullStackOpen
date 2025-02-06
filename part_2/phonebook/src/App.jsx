@@ -8,17 +8,20 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
-  const handleNameChange = (event) => {
-    setNewName(event.target.value)
-  }
-
   const addName = (event) => {
     event.preventDefault()
+
+    if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
+      alert(`${newName} is already added to the phonebook`)
+      return;
+    } 
+
     const nameObject = {
       name: newName
     }
     setPersons(persons.concat(nameObject))
     setNewName('')
+
   }
 
   return (
@@ -29,7 +32,7 @@ const App = () => {
           name: 
           <input 
             value={newName}
-            onChange={handleNameChange}
+            onChange={(e) => setNewName(e.target.value)}
           />
         </div>
         <div>
