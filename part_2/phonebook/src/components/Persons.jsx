@@ -1,10 +1,15 @@
-const Persons = (props) => {
+import Person from './Person'
+
+const Persons = ({persons}) => {
     return (
-        <div>
-            {props.persons.map((person) => (
-                <p key={person.id}> {person.name} {person.number}</p>
-            ))}
-        </div>
+        <ul>
+            {persons.map(element => 
+                <Person 
+                    key={element.id} 
+                    person={element}  
+                />
+            )}
+        </ul>
     )
 }
 

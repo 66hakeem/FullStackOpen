@@ -3,6 +3,7 @@ import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personService from './services/contacts'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -20,21 +21,21 @@ const App = () => {
 
   const addDetails= (event) => {
     event.preventDefault()
-
     if (persons.some(person => person.name.toLowerCase() === newName.toLowerCase())) {
       alert(`${newName} is already added to the phonebook`)
       return
     } 
-
     const nameObject = {
-      id: `${persons.length + 1}`,
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
-
+    personService
+      .create(nameObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleFilter = (e) => {
@@ -54,11 +55,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-
       <Filter search={filter} setSearch={handleFilter} />
-
       <h2>Add a new</h2>
-
       <PersonForm
         addDetails = {addDetails} 
         newName = {newName} 
@@ -66,11 +64,8 @@ const App = () => {
         newNumber = {newNumber}
         handleNewNumber = {handleNewNumber}
       />
-
       <h3>Numbers</h3>
-
       <Persons persons={personsToShow} />
-
     </div>
   )
 }
