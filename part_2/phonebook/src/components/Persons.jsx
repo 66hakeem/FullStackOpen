@@ -1,16 +1,14 @@
-import Person from './Person'
-
-const Persons = ({persons}) => {
+const Persons = ({persons, deletePerson}) => {
     return (
-        <ul>
-            {persons.map(element => 
-                <Person 
-                    key={element.id} 
-                    person={element}  
-                />
-            )}
-        </ul>
+        <li>
+            {persons.name} {persons.number}
+            <button onClick={deletePerson}>delete</button>
+        </li>
     )
 }
 
 export default Persons
+
+
+
+

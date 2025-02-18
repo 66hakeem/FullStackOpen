@@ -52,6 +52,23 @@ const App = () => {
 
   const personsToShow = filter ? persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase())) : persons
 
+  const deleteEntry = id => {
+    const person = persons.find(person => person.id === id)
+
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService
+        .deleteUser(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(e => {
+          alert(
+            `Failed to delete user.`
+          )
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -65,7 +82,15 @@ const App = () => {
         handleNewNumber = {handleNewNumber}
       />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <ul>
+        {personsToShow.map(element => 
+          <Persons
+            key={element.id}
+            persons={element}
+            deletePerson={() => deleteEntry(element.id)}
+          />
+        )}
+      </ul>
     </div>
   )
 }
