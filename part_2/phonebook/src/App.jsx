@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personService from './services/contacts'
+import Notification from './components/Notification'
 
 
 //root component
@@ -14,6 +14,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [color, setColor] = useState('')
 
 
   //uses person service to get and set iniitial
@@ -62,6 +64,9 @@ const App = () => {
             setPersons(
               persons.map(person => person.id === existingPerson.id ? returnedPerson : person)
             )
+            setNotificationMessage(`${existingPerson.name}'s number has been updated.`)
+            setColor('green')
+            timeOut()
             reset()
           })
       } 
@@ -77,6 +82,9 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           reset('')
         })
+        setNotificationMessage(`Added ${nameObject.name}`)
+        setColor('green')
+        timeOut()
     }
   }
 
@@ -105,27 +113,42 @@ const App = () => {
 
   //handles deleting a user when the delete button is clicked
   //user has to confirm deletion
+  //hanldes updating number of an already existing user
   const deleteEntry = id => {
-    const person = persons.find(person => person.id === id)
-    if (window.confirm(`Delete ${person.name}?`)) {
-      personService
-        .deleteUser(id)
-        .then(() => {
+    const deletedPerson = persons.find(person => person.id === id)
+    if (window.confirm(`Delete ${deletedPerson.name}?`)) {
+      personService.deleteUser(id).then(() => {
           setPersons(persons.filter(person => person.id !== id))
+          setNotificationMessage(`${deletedPerson.name} has been deleted`)
+          setColor('green')
+          timeOut()
         })
-        .catch(e => {
-          alert(
-            `Failed to delete user.`
+        .catch(error => {
+          setNotificationMessage(
+            `Information of ${deletedPerson.name} has already been removed from the server`
           )
+          setPersons(persons.filter(person => person.id !== id))
+          setColor('red')
+          timeOut()
         })
     }
+  }
+
+
+  //function to remove display of notification message after 5 seconds
+  //sets the  notificationmessage and color states to null
+  const timeOut = () => {
+    setTimeout(() => {
+      setNotificationMessage(null)
+      setColor('')
+    }, 5000)
   }
 
 
   return (
     <div>
       <h2>Phonebook</h2>
-
+      <Notification message={notificationMessage} result={color}/>
       <Filter search={filter} setSearch={handleFilter} />
 
       <h2>Add a new</h2>
